@@ -1,3 +1,4 @@
+from __future__ import print_function
 from glob import glob
 import numpy as np
 
@@ -52,12 +53,12 @@ def main():
     probmat = [[0 for _ in range(4)] for _ in range(4)]
     for i in range(4):
         for j in range(4):
-            probmat[i][j] = mat[i][j]/sums[i]
+            probmat[i][j] = 1.*mat[i][j]/sums[i]
 
     print('probmat:')
     for i in range(4):
         for j in range(4):
-            print(f'{probmat[i][j]:.3f}', end=' ')
+            print('{:.3f}'.format(probmat[i][j]), end = ' ')
         print('')
 
     #print(probmat)

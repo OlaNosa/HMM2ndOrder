@@ -1,3 +1,4 @@
+from __future__ import print_function
 from glob import glob
 import numpy as np
 
@@ -39,22 +40,22 @@ def main():
     print('mat is:')
     print(mat)
     #sums = [0 for _ in range(16)]
-    sums = [0]*16
+    sums = [0]*4
     for i in range(4):
         for j in range(16):
-            sums[j] = sums[j] + mat[i][j]
+            sums[i] = sums[i] + mat[i][j]
 
     emprobmat = [[0 for _ in range(16)] for _ in range(4)]
     for i in range(4):
         for j in range(16):
-            emprobmat[i][j] = mat[i][j]/sums[j]
+            emprobmat[i][j] = 1.*mat[i][j]/sums[i]
 
     print('emprobmat:')
     #print(emprobmat)
     for i in range(4):
         for j in range(16):
-            print(f'{emprobmat[i][j]:.3f}', end=' ')
-            #print('{:.3f}'.format(emprobmat[i][j], 
+            #print(f'{emprobmat[i][j]:.3f}', end=' ')
+            print('{:.3f}'.format(emprobmat[i][j]), end=' ') 
         print('')
 
     np.save('emprobmat.npy', emprobmat)
