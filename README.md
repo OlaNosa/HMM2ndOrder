@@ -7,5 +7,5 @@
 - To generate and view the emission matrix run 2orderemissionprob.py: the result (emprobmat.npy) contains a 4X16 matrix of hiddens states (UU, UP, PU, PP) by (all possible pairs of nucleotides starting with AA, etc. where A = 0, C = 1, G = 2, U = 3)
   - emission probability represents P(pair of nucleotides | pair of hidden states)
 ## pyhmm: (use python2)
-- To generate second HMM run mytest_pyhmm2order
+- To generate second order HMM run mytest_pyhmm2order
   - used same code as for the first order model but changed input sequence to take in pairs of nucleotides in strides of 2
