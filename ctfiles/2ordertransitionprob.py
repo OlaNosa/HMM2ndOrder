@@ -4,8 +4,6 @@ import numpy as np
 
 def get_array(fname):
     my_array = []
-    #n_p = 0
-    #n_u = 0
 
     f = open('processed_data/{}.ct'.format(fname), "r")
     if f.mode == "r":
@@ -68,7 +66,4 @@ def main():
 
 
 main()
-
-#n_pp, n_pu, n_up, n_uu = process_file('CRW_00548')
-#print(n_pp, n_pu, n_up, n_uu)
 
