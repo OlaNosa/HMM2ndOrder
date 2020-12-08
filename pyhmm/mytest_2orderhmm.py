@@ -132,41 +132,7 @@ def main():
         prob, hidden_state = hmm.viterbi(obs)
         print ("Max Probability = ", prob, "hidden state sequence", hidden_state)
 
-'''        
-        tp = 0
-        tn = 0
-        fp = 0
-        fn = 0
 
-        hidden_state = [1 if x=='Paired' else 0 for x in hidden_state]
-
-        print('hidden state is now 1s and 0s')
-        print(hidden_state)
-        
-        actual_state = actual_hidden_states[i]
-        actual_state = [int(x) for x in actual_state]
-
-
-        print('actual state ')
-        print(actual_state)
-
-        for j in range(len(hidden_state)):
-            if hidden_state[j] == 1 and actual_state[j] ==1:
-                tp += 1
-            elif hidden_state[j] == 1 and actual_state[j] == 0:
-                fp += 1
-            elif hidden_state[j] == 0 and actual_state[j] == 1:
-                fn += 1
-            else:
-                tn += 1
-        
-        assert tp + fp + fn + tn == len(hidden_state) 
-     
-        print('tp, fp, fn, tn', tp, fp, fn, tn)
-        print("Acc: ", 1.0*(tp+tn)/(tp+fp+fn+tn))
-        print("Sen: ", 1.0*tp/(tp+fn))
-        print("PPV: ", 1.0*tp/(tp+fp))
-'''
 
 main()
 #create_param_dict()
