@@ -60,16 +60,16 @@ def valid_sequence(s):
     return True
 
 
-def get_array(fname, col=0):
+def get_array(fname):
     sequence = []
-    #hhidden_sequence = []
+    hidden_sequence = []
     f = open('../ctfiles/processed_data/{}.ct'.format(fname), "r")
     if f.mode == "r":
         for line in f:
             arr = line.split()
-            for i in range(len(arr[col])):
-                    sequence.append(arr[col])
-
+            for i in range(len(arr[0])):
+                    sequence.append(arr[0])
+                    hidden_sequence.append(int(arr[1]))
     f.close()
 
     if not valid_sequence(sequence): return []
@@ -80,7 +80,7 @@ def get_array(fname, col=0):
         output.append(sequence[i]+sequence[i+1])
         i = i+2
 
-    return output
+    return output, hidden_sequence
 
 
 def main():
@@ -99,16 +99,17 @@ def main():
         print(fname)
         fnames_list.append(fname)
         pfname = fname[26:-3]
-        sequence = get_array(pfname)
+        sequence, actual_hidden_state = get_array(pfname)
         
         if len(sequence)>0:
 
             observation_list.append(sequence)
-            sequence = get_array(pfname, col=1)
-            actual_hidden_states.append(sequence)
+            #sequence = get_array(pfname, col=1)
+            actual_hidden_states.append(actual_hidden_state)
 
         if len(observation_list)==16: break
 
+    assert len(actual_hidden_states) == len(observation_list)
 
     #models_dir = os.path.join('.', 'models')
     # sequences
@@ -119,8 +120,8 @@ def main():
 
     hmm = MyHmm(model)
     total1 = total2 = 0 # keep tarck of total prob sum to 1
-    for i,obs in enumerate(observation_list):
-        print('\ntraining model on data in file: {}'.format(fnames_list[i]))
+    for iobs,obs in enumerate(observation_list):
+        print('\ntraining model on data in file: {}'.format(fnames_list[iobs]))
         p1 = hmm.forward(obs)
         p2 = hmm.backward(obs)
         total1 += p1
@@ -150,21 +151,33 @@ def main():
         print('hidden state is now 1s and 0s')
         print(hidden_array)
 
-        print(obs)
-
-        for i in range(len(actual_hidden_states)): 
-            actual_state.append(x[0])
-            actual_state.append(x[1])
-
-
+        actual_hidden_state = actual_hidden_states[iobs]
         print('actual state ')
-        print(actual_state)
+        print(actual_hidden_state)
 
-                    
+        for j in range(len(hidden_array)):
+            if hidden_array[j] == 1 and actual_hidden_state[j] == 1:
+                tp += 1
+            elif hidden_array[j] == 1 and actual_hidden_state[j] == 0:
+                fp += 1
+            elif hidden_array[j] == 0 and actual_hidden_state[j] == 1:
+                fn += 1
+            else:
+                tn += 1
+
+        assert tp + fp + fn + tn == len(hidden_array)
+
+        print('tp, fp, fn, tn', tp, fp, fn, tn)
+        print("Acc: ", 1.0*(tp+tn)/(tp+fp+fn+tn))
+        print("Sen: ", 1.0*tp/(tp+fn))
+        print("PPV: ", 1.0*tp/(tp+fp))
+
+  
 
 
 
-            
+
+    
 
 
 
