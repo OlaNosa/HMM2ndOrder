@@ -62,6 +62,7 @@ def valid_sequence(s):
 
 def get_array(fname, col=0):
     sequence = []
+    #hhidden_sequence = []
     f = open('../ctfiles/processed_data/{}.ct'.format(fname), "r")
     if f.mode == "r":
         for line in f:
@@ -131,6 +132,39 @@ def main():
     #for i in range(len(observation_list)):
         prob, hidden_state = hmm.viterbi(obs)
         print ("Max Probability = ", prob, "hidden state sequence", hidden_state)
+
+        hidden_array = []
+        tp = 0
+        tn = 0
+        fp = 0
+        fn = 0
+
+        for i in range(len(hidden_state)):
+            string_pairings = hidden_state[i]
+            for j in range(len(string_pairings)):
+                if string_pairings[j] == 'P':
+                    hidden_array.append(1)
+                else:
+                    hidden_array.append(0)
+
+        print('hidden state is now 1s and 0s')
+        print(hidden_array)
+
+        print(obs)
+
+        for i in range(len(actual_hidden_states)): 
+            actual_state.append(x[0])
+            actual_state.append(x[1])
+
+
+        print('actual state ')
+        print(actual_state)
+
+                    
+
+
+
+            
 
 
 
